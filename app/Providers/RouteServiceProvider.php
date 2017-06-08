@@ -23,7 +23,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //TODO 全局路由正则规则 所有 test_id都遵循以下正则方法
+        Route::pattern('test_id', '[0-9]+');
+
+        //TODO 显式绑定路由与模型
+        Route::model('test_model', app\User::class);
+
+        //TODO 显式绑定路由与模型 自定义
+        Route::bind('test_model', function ($value) {
+            return App\User::where('name', $value)->first();
+        });
 
         parent::boot();
     }

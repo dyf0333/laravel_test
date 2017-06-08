@@ -11,8 +11,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Dyf extends Model
+class Test extends Model
 {
-    protected $table = 'dyf';
+    protected $table = 'Test';
 
 }
