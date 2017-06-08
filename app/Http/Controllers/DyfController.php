@@ -26,6 +26,8 @@ class DyfController extends Controller
     }
 
     public function pdo(){
+        phpinfo();
+        echo 'pdo';die;
         $userModel= new Dyf();
         $temp = $userModel->all();
         dd($temp);

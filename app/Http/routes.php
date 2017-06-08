@@ -14,6 +14,9 @@ use App\Http\Controllers\UserController;
 
 
 Route::get('/', function () {
+    $laravel = app();
+    echo "Your Laravel version is ".$laravel::VERSION;
+
     return view('welcome');
 })->name('welcome');
 //Route::match(['get','post'],'/a', function () {
