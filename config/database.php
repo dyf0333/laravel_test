@@ -102,6 +102,11 @@ return [
     | provides a richer set of commands than a typical key-value systems
     | such as APC or Memcached. Laravel makes it easy to dig right in.
     |
+    Redis
+        在使用 Redis 作为 Session 驱动之前
+        需要通过 Composer 安装 predis/predis 扩展包(~1.0)。
+        还需要在 database 配置文件中指定 Redis 连接参数信息。
+        在 Session 配置文件中的 connection 选项中指定 Session 使用的 Redis 连接。
     */
 
     'redis' => [

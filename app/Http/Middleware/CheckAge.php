@@ -16,7 +16,9 @@ class CheckAge
     public function handle($request, Closure $next)
     {
         if ($request->age <= 200) {
-            return redirect('welcome');
+            echo '中间件要求age大于200，没有通过！！（正常应该跳转error页面或者抛异常）';
+            die;
+//            return redirect('welcome');
         }
         return $next($request);
     }

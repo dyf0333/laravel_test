@@ -1,21 +1,18 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+//基于闭包的路由并不能被缓存。如果要使用路由缓存，你必须将所有的闭包路由转换成控制器类
+//创建路由缓存：
+//    php artisan route:cache
+//清除路由缓存：
+//    php artisan route:clear
 
+Route::get('viewAction','ViewController@index');
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('test1','TestController@test1');
 Route::get('test2','TestController@test2');
 Route::any('view','TestController@viewValidate');
@@ -106,8 +103,109 @@ Route::get('api/users/{user}', function (App\User $user) {
 
 //中间件路由方式
 Route::get('checkAge/{age}', function () {
-    echo '通过了中间件验证';
+    echo '通过了中间件验证，正常输出数据';
 })->middleware('checkAge');
 //中间件路由方式
 //Route::get('/', function () {})->middleware('web');
 //Route::group(['middleware' => ['web']], function () {});
+
+
+//单一操作控制器注册路由时，无需指定方法
+Route::get('danyi/{id}', 'Danyi');
+
+//资源路由（全都选择）
+Route::resource('photos', 'PhotoController');
+
+//资源路由（选择部分，或者摒弃部分）
+Route::resource('photo', 'PhotoController', ['only' => [
+    'index', 'show'
+]]);
+Route::resource('photo', 'PhotoController', ['except' => [
+    'create', 'store', 'update', 'destroy'
+]]);
+
+//命名资源路由
+Route::resource('photo', 'PhotoController', ['names' => [
+    'create' => 'photo.build'
+]]);
+
+
+//获取请求 （闭包方式）
+Route::get('request', function (\Illuminate\Http\Request $request) {
+    $uri = $request->path();
+    if ($request->is('admin/*')) {}
+    $url = $request->url();
+    $url = $request->fullUrl();
+    $method = $request->method();
+    if ($request->isMethod('post')) {}
+});
+
+
+//相应 header
+Route::get('request', function () {
+    return response('Hello World', 200)
+        ->header('Content-Type', 'text/plain');
+
+//    return response($content)
+//        ->header('Content-Type', $type)
+//        ->header('X-Header-One', 'Header Value')
+//        ->header('X-Header-Two', 'Header Value');
+
+//    return response($content)
+//        ->withHeaders([
+//            'Content-Type' => $type,
+//            'X-Header-One' => 'Header Value',
+//            'X-Header-Two' => 'Header Value',
+//        ]);
+
+    //cookie
+//    return response($content)
+//        ->header('Content-Type', $type)
+//        ->cookie('name', 'value', $minutes);
+});
+
+//重定向
+Route::get('redirect', function () {
+    return redirect('home/dashboard');
+
+    //回到上一级
+    return back()->withInput();
+
+    //重定向到命名了得路由
+    return redirect()->route('login');
+    return redirect()->route('profile', ['id' => 1]); //含参数
+
+    //重定向到控制器方法
+    return redirect()->action('HomeController@index');
+    return redirect()->action('UserController@profile', ['id' => 1]);
+
+    //重定向 带上session闪存数据
+    return redirect('dashboard')->with('status', 'Profile updated!');
+
+    //blade模板获取闪存数据
+//    @if (session('status'))
+//    <div class="alert alert-success">
+//        {{ session('status') }}
+//    </div>
+//    @endif
+});
+
+//相应 view 、 json 、 强制下载
+Route::get('request', function () {
+    $data = '';
+    $type= '';
+    return response()->view('hello', $data, 200)->header('Content-Type', $type);
+    return view('welcome');
+
+    return response()->json(['name' => 'Abigail','state' => 'CA']);
+    //JSONP 相应
+    return response()->json(['name' => 'Abigail', 'state' => 'CA'])->withCallback($request->input('callback'));
+
+    //强制下载
+    return response()->download($pathToFile);
+    return response()->download($pathToFile, $name, $headers);
+
+    //相应文件
+    return response()->file($pathToFile);
+    return response()->file($pathToFile, $headers);
+});
