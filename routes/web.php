@@ -7,7 +7,9 @@
 //    php artisan route:clear
 
 Route::get('viewAction','ViewController@index');
-
+Route::get('blade', function () {
+    return view('child');
+});
 
 Route::get('/', function () {
     return view('welcome');
