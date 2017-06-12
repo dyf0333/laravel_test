@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
+/**
+ * 包含重置密码的逻辑
+ */
 class ResetPasswordController extends Controller
 {
     /*

@@ -211,3 +211,36 @@ Route::get('request', function () {
     return response()->file($pathToFile);
     return response()->file($pathToFile, $headers);
 });
+
+
+//php artisan make:auth 命令自动生成的路由
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');
+
+//http基础认证 提供一个快速的方法来认证用户
+//不需要任何「登录」页面。开始之前，
+//先增加 auth.basic 中间件 到你的路由，
+//auth.basic 中间件已经被包含在 Laravel 框架中，所以你不需要定义它：
+//默认情况下，auth.basic 中间件将会使用用户的 email 字段当作「用户名」。
+Route::get('profile', function () {
+    // 只有认证过的用户可进入...
+})->middleware('auth.basic');
+//如果是正在使用 FastCGI，则 HTTP 的基础认证可能无法正常运作，你需要将下面这几行加入你 .htaccess 文件中：
+//RewriteCond %{HTTP:Authorization} ^(.+)$
+//RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+
+//无状态 HTTP 基础认证
+//API认证。
+//定义一个中间件 并调用 onceBasic 方法
+Route::get('api/user', function () {
+    // 只有认证过的用户可以进入...
+})->middleware('auth.basic.once');
+
+
+//程序内部调用 自定义的 artisan 命令
+Route::get('/sendEmail', function () {
+    $exitCode = \Illuminate\Support\Facades\Artisan::call('email:send', [
+        'user' => 1, '--queue' => 'default'
+    ]);
+});

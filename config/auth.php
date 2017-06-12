@@ -44,8 +44,13 @@ return [
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
+
+            //开启自定义guard，实现在 AuthServiceProvider
+            // 'driver' => 'jwt',
+            // 'provider' => 'users',
         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

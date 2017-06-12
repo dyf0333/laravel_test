@@ -40,6 +40,14 @@ return [
         ],
 
         'mysql' => [
+//            配置读写分离
+//            'read' => [
+//                'host' => '192.168.1.1',
+//            ],
+//            'write' => [
+//                'host' => '196.168.1.2'
+//            ],
+
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),

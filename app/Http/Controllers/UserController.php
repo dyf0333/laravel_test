@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 
 
@@ -112,4 +116,48 @@ class UserController extends Controller
 //        $cookie = cookie('name', 'value', $minutes);
 //        return response('Hello World')->cookie($cookie);
     }
+
+    /**
+     * 加密存储数据
+     *  encrypt
+     */
+    public function storeSecret(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->fill([
+            'secret' => encrypt($request->secret)
+        ])->save();
+
+        //解密数据
+        try {
+            $decrypted = decrypt($encryptedValue);
+        } catch (DecryptException $e) {
+            //
+        }
+
+        //非序列化的加密与解密
+        $encrypted = Crypt::encryptString('Hello world.');
+        $decrypted = Crypt::decryptString($encrypted);
+    }
+
+    public function uploadUserInfo(Request $request)
+    {
+        //用hash的make方法，给密码加密
+        $request->user()->fill([
+            'password' => Hash::make($request->newPassword)
+        ])->save();
+
+        //hase的check检查密码
+        if (Hash::check('plain-text', $hashedPassword)) {
+            // 密码对比...
+        }
+
+        //验证密码是否须重新加密
+        if (Hash::needsRehash($hashed)) {
+            $hashed = Hash::make('plain-text');
+        }
+    }
+
+
+
 }

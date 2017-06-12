@@ -33,3 +33,28 @@ laravel 5.4.25
       重定向
       session
       表单验证
+
+2017.6.12
+    
+    用户认证
+        php artisan make:auth
+        php artisan migrate
+    http认证
+    API认证
+        Passport 基于 League OAuth2 server 实现
+    用户授权系统
+         Gates (像 路由)提供了一个简单、基于闭包的方式来授权认证。
+         策略（像 控制器）在特定的模型或者资源中通过分组来实现授权认证的逻辑。
+    laravel提供的encrypt与decrypt加密解密
+         OpenSSL 提供的 AES-256 和 AES-128 的加密
+    php artisan 命令行
+    广播
+    缓存
+    辅助函数
+    数据库
+        查询构造器、分页、数据填充
+    Eloquent
+        关联模型（一对一、一对多、多对多）
+        Eloquent集合
+        
+    
