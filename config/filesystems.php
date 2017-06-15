@@ -55,6 +55,7 @@ return [
             'visibility' => 'public',
         ],
 
+        //亚马逊的空间
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_KEY'),

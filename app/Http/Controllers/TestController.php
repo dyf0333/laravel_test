@@ -100,7 +100,7 @@ class TestController extends Controller
         if ($validator->fails()) {
             return redirect('post/create')
                 ->withErrors($validator)
-                ->withInput();
+                ->withInput(); //数据保持 withInput后，在view层获取方法：{{ old('user')['name'] }}
         }
 
         //如果你想手动创建一个验证器实例，但希望继续享用 ValidatesRequest 特性提供的自动跳转功能，

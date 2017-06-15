@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * 上传文件资源
@@ -21,6 +22,10 @@ class UploadController extends Controller
         //文件后缀
         $path = $request->photo->path();
         $extension = $request->photo->extension();
+        $file->getClientOriginalName();
+        $file->getClientOriginalExtension();
+        $file->getClientMineType();
+        $file->getRealPath();
 
         //存储上传的文件
         //store 方法允许存储文件到相对于文件系统根目录配置的路径。这个路径不能包含文件名，名称将使用 MD5 散列文件内容自动生成。
@@ -29,5 +34,9 @@ class UploadController extends Controller
         $path = $request->photo->store('images', 's3');
         $path = $request->photo->storeAs('images', 'filename.jpg');
         $path = $request->photo->storeAs('images', 'filename.jpg', 's3');
+
+        //存储上传的文件
+        $fileName = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $extension;
+        Storage::disk('upload')->put($fileName,file_get_contents($path));
     }
 }

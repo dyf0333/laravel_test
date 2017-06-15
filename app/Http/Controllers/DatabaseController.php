@@ -59,6 +59,8 @@ class DatabaseController extends Controller
         //聚合
         $users = DB::table('users')->count();
         $price = DB::table('orders')->max('price');
+        $price = DB::table('orders')->min('price');
+        $price = DB::table('orders')->sum('price');
         $price = DB::table('orders')->where('finalized', 1)->avg('price');
 
         //查询
@@ -127,10 +129,19 @@ class DatabaseController extends Controller
         // 强制删除所有相关模型...
         $flights->history()->forceDelete();
 
+        //只获取一个字段的数据，相当于thinkphp 的field
+        $names = DB::table('User')->pluck('name');
+        $names = DB::table('User')->lists('name');
+        //lists可以指定lists的第二个参数为返回数据的键下标 array_column()
+        $names = DB::table('User')->lists('name','id');
+        //只获取某些字段的数据，相当于thinkphp 的field
+        $names = DB::table('User')->select('id','name','age');
+
     }
 
     public function where(){
         $users = DB::table('users')->where('votes', '=', 100)->get();
+        $users = DB::table('users')->whereRaw('votes >= ? and age > ?', [10,20])->get(); //多个where条件
         $users = DB::table('users')
             ->where('votes', '>=', 100)
             ->get();
@@ -190,6 +201,8 @@ class DatabaseController extends Controller
 //        @endforeach
 //        </div>
 //        {{ $users->links() }}
+//        {{ $users->render() }}
+
         $users->count();
         $users->currentPage();
         $users->firstItem();
@@ -201,5 +214,68 @@ class DatabaseController extends Controller
         $users->previousPageUrl();
         $users->total(); //(当使用 simplePagination 时无效);
 //        $users->url($page);
+
+
+        DB::table('User')->chunk(10,function ($users){
+            dd($users);
+            if(1){//查询够了的条件
+                return false;//在此次停止
+            }
+        });
+    }
+
+    /**
+     * Eloquent ORM 学习
+     */
+    public function orm1(){
+        //all 方法，返回的是所有数据的集合
+        $users = User::all();
+
+        //find 方法， 返回一条数据
+        $users = User::find(1);
+
+        //findOrFail 根据主键查找，如果没查到，就报错
+        $users = User::findOrFail(1);
+
+        User::chunk(10,function ($users){
+            dd($users);
+            if(1){//查询够了的条件
+                return false;//在此次停止
+            }
+        });
+
+        User::count();
+        User::where('id','>','100')->max('age');
+
+        //用created方法新增数据
+        User::create([
+            'name'=>'temp1',
+            'age'=>'11',
+            ]);
+
+        //如果没有就创建一条数据
+        User::firstOrCreate([
+            'name'=>'temp1',
+        ]);
+
+        //如果没有就创建一条实例，如果要保存，用save方法
+        $user = User::firstOrNew([
+            'name'=>'temp1',
+        ]);
+        $user->save();
+
+
+        //更新数据
+        $user = User::find(1);
+        $user->name = '11';
+        $user->save();
+
+        $num = User::where('id','>','1')->update(['age'=>41]);
+
+        //删除数据
+        User::destroy(1);
+        User::destroy(1,2,3,4);
+        User::destroy([1,2,3,4]);
+        User::where('id','>','1')->delete();
     }
 }

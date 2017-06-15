@@ -7,11 +7,7 @@ use Closure;
 class CheckAge
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
+     * 前置操作
      */
     public function handle($request, Closure $next)
     {
@@ -20,7 +16,11 @@ class CheckAge
             die;
 //            return redirect('welcome');
         }
+        //正常执行中间件后的行为
         return $next($request);
+
+        //todo 操作
+        //后置操作行为
     }
 
     /**

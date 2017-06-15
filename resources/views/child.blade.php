@@ -3,6 +3,7 @@
 @section('title', 'Page Title')
 
 @section('sidebar')
+    {{--@parent--}}
     @@parent
 
     {{--引入子视图--}}
@@ -18,6 +19,16 @@
     {{--在默认情况下，Blade 模板中的 {{ }} 表达式将会自动调用 PHP htmlspecialchars 函数来转义数据以避免 XSS 的攻击。
     如果你不想你的数据被转义，你可以使用下面的语法：--}}
     Hello, {!! $name !!}.
+
+    {{--原样输出--}}
+    @{{ $name }}
+
+    {{--模板中生成URL，3种方式
+    url     根据路由的名字生成URL    url('show')
+    action  根据指定控制器和方法名生成URL    action('showController@show')
+    route   根据路由别名（前提是这个路由有as的名字）生成对应URL  route('url')
+    --}}
+
 
 
     @if (count($records) === 1)

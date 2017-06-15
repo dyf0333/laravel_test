@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
+/**
+ * 1.http request类的session 方法
+ * 2.session辅助函数
+ * 3.Session facade方法
+ */
 class SessionController extends Controller
 {
     public function index(){
@@ -40,5 +46,23 @@ class SessionController extends Controller
         //重新生成session_id
         //防止恶意用户利用 session fixation 对应用进行攻击
         $request->session()->regenerate();
+
+        //session的facade方法
+        Session::put('key1','value1');
+        Session::get('key1');
+        Session::get('key1','default');
+
+        //获取数据
+        Session::push('key1','value1');
+        //获取获取并删除数据
+        Session::pull('key1','default');
+        //获取所有数据
+        Seesion::all();
+
+        //删除session数据
+        Session::forget('key');
+        //删除session所有数据
+        Session::flush();
+
     }
 }

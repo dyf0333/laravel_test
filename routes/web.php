@@ -20,7 +20,14 @@ Route::get('test2','TestController@test2');
 Route::any('view','TestController@viewValidate');
 Route::any('testValidate','TestController@testValidate');
 Route::get('env','TestController@environment');
+Route::get('mail','MailController@index');
+Route::get('log','LogController@index');
+Route::get('queue','QueueController@index');
 
+
+
+//as给路由起别名
+Route::get('env',['as'=>'env','uses'=>'TestController@environment']);
 
 Route::get('test_get', function () {
     echo 'get 方式路由';
