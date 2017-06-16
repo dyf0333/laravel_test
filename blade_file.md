@@ -1,11 +1,14 @@
-#lade模板的文档
-##父子模板有两种继承实现方式 @yield 和 @section
+# blade模板的文档
 
-###方式一：
+## 父子模板有两种继承实现方式 @yield 和 @section
+
+### 方式一：
+
 
 父模板：
 
     @yield('content')
+
 
 子模板：
 
@@ -13,7 +16,7 @@
     Content here
     @stop
 
-###方式二：
+### 方式二：
 
 父模板
 
@@ -27,7 +30,7 @@
     @parent @stop
 <br>
 
-###区别
+### 区别
     @yield() 
     可以理解为一个占位符。
     是不可扩展的
@@ -38,7 +41,7 @@ and
     表示一个存储区域，这个区域内父模板可以预定义内容，在子模板中可以通过 @parent 进行调用。
     则既可以被替代，又可以被扩展
     
-##@section 可以用@show, @stop, @overwrite 以及 @append 来结束
+# #@section 可以用@show, @stop, @overwrite 以及 @append 来结束
     
     @show 与 @stop
     @show 指的是执行到此处时将该 section 中的内容输出到页面，而 @stop 则只是进行内容解析，并且不再处理当前模板中后续对该section的处理，除非用 @override覆盖。
