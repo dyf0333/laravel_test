@@ -66,5 +66,15 @@ laravel 5.4.25
     cache缓存（多种方式切换）
     上传文件并保存功能
     各种功能的门面facade方法
+    
+2017.6.19
+    
+    Redis做缓存、session、队列
+       如果缓存使用Redis，session也使用了Redis，队列已使用了Redis，
+       当运行php artisan cache:clear清除缓存时，会把登录信息清除，也会把队列清除
+       解决办法很简单，为它们分配不同的连接即可。在config\database.php中增加连接，注意database序号
+       然后分别为session和queue更换连接，
+       //session.php中的connection选项：
+       //queue.php中的connections数组中：
 
     

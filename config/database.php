@@ -130,4 +130,36 @@ return [
 
     ],
 
+    /**
+     * 如果缓存使用Redis，session也使用了Redis，队列已使用了Redis，
+     * 当运行php artisan cache:clear清除缓存时，会把你的登录信息清除，也会把队列清除
+     * 为它们分配不同的连接即可。
+     * 首先在config\database.php中增加连接，注意database序号：
+     */
+//    'redis' => [
+//
+//        'cluster' => false,
+//
+//        'default' => [
+//            'host' => env('REDIS_HOST', 'localhost'),
+//            'password' => env('REDIS_PASSWORD', null),
+//            'port' => env('REDIS_PORT', 6379),
+//            'database' => 0,
+//        ],
+//        'session' => [
+//            'host' => env('REDIS_HOST', 'localhost'),
+//            'password' => env('REDIS_PASSWORD', null),
+//            'port' => env('REDIS_PORT', 6379),
+//            'database' => 1,
+//        ],
+//        'queue' => [
+//            'host' => env('REDIS_HOST', 'localhost'),
+//            'password' => env('REDIS_PASSWORD', null),
+//            'port' => env('REDIS_PORT', 6379),
+//            'database' => 2,
+//        ],
+//
+//    ],
+
+
 ];

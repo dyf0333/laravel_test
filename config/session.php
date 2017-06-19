@@ -72,6 +72,9 @@ return [
 
     'connection' => null,
 
+//    'connection' => 'session',
+
+
     /*
     |--------------------------------------------------------------------------
     | Session Database Table

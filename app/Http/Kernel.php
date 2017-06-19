@@ -10,6 +10,7 @@ class Kernel extends HttpKernel
     /**
      * 全局中间件
      * 每个请求都需要这些中间件验证
+     * 执行在路由之前
      *
      * The application's global HTTP middleware stack.
      *
