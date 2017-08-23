@@ -39,4 +39,30 @@ class UploadController extends Controller
         $fileName = date('Y-m-d-H-i-s') . '-' . uniqid() . '.' . $extension;
         Storage::disk('upload')->put($fileName,file_get_contents($path));
     }
+
+    public function test(Request $request){
+//        文件上传
+//配置config/filesystems.php
+//增加以下配置
+//'uploads'=>[
+//            'driver'=> 'local',
+//            'root'=>storage_path('app/uploads')  //位于storage/app/uploads
+//            //public_path('app/uploads') //则位于public/app/uploads
+//        ],
+
+//定义路由，创建视图，模板文件的form post提交，记得加上enctype="multipart/form-data" 属性
+//同时记得带上token {{ csrf_field() }}  <input type="file" name="avatar" />
+
+//接收处理
+        $file = $request->file('avatar');
+        if ($file->isValid()) { //判断文件是否上传成功
+            $originalName = $file->getClientOriginalName(); //原文件名
+            $ext = $file->getClientOriginalExtension(); //扩展名 不含.
+            $type = $file->getClientMimeType(); //MimeType
+            $realPath = $file->getRealPath(); //临时绝对路径
+            // 这里可以根据 扩展名和MimeType对文件进行验证
+            $fileName = md5_file($realPath) . '.' . $ext;
+            $res = Storage::disk('uploads')->put($fileName, file_get_contents($realPath)); //返回布尔值
+        }
+    }
 }

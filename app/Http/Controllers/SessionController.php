@@ -12,6 +12,27 @@ use Illuminate\Support\Facades\Session;
  */
 class SessionController extends Controller
 {
+
+    /**
+     * 构造函数，不能获取到session数据；具体原因在
+     *      https://github.com/dyf0333/document/blob/master/Laravel%E7%9A%84%E5%9D%91.md
+     * 所以这里处理session数据，而不做任何权限判断；只将session数据保存起来，以供继承于本控制器的其他子类用
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(function ($request, $next) {
+            $sessionInfo = Session::get(AdminService::SESSION_KEY);
+            if ($sessionInfo) {
+                $this->merchantId = $sessionInfo['merchant_id'];
+                $this->accountId = $sessionInfo['id'];
+                $this->accountInfo = $sessionInfo;
+            }
+            return $next($request);
+        });
+    }
+
+
     public function index(){
 
     }

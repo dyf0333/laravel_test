@@ -18,5 +18,25 @@ class MailController extends Controller
                 $message->to('给谁');
             });
         });
+
+
+//        需要在.env 配置MAIL 相关的参数，（163邮箱的请记得不是密码，而是授权码）
+//发送文本邮件
+
+        Mail::raw('邮件内容详情', function($message){
+    $message->to("收件人邮箱地址");
+            $message->from("发件人邮箱", "发件人姓名"); //发件人邮箱必须和验证邮箱一样 非必填
+            $message->subject("邮件主题");
+        });
+
+//发送带格式的邮件
+        Mail::send('notify.mail', ['key' => 'value'], function ($message) {
+            $message->to("收件人邮箱地址");
+            $message->from("发件人邮箱", "发件人姓名"); //发件人邮箱必须和验证邮箱一样 非必填
+            $message->subject("邮件主题");
+        });
+//notify.mail wei  views/notify/mail.blade.php 模板文件
+//key=>value 跟 return view() 的第二个参数一样
+
     }
 }
